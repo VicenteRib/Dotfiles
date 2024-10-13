@@ -4,6 +4,7 @@ require("Vicente.autocmd")
 -- Line Numbers
 vim.api.nvim_set_hl(0, "LineNr", { fg = "#FF0000" })  -- Regular line numbers
 vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#FF0000" })  -- Current line number
+require('leap').create_default_mappings()
 
 vim.opt.number = true
 vim.opt.relativenumber=true

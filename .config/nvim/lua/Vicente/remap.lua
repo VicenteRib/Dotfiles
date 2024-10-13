@@ -1,6 +1,7 @@
 vim.keymap.set("n", "<leader>pp", vim.cmd.Ex)
 
 local builtin = require('telescope.builtin')
+vim.keymap.set('n', '<leader>gr', builtin.lsp_references, { desc = 'Telescope find references using lsp' })
 vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
 vim.keymap.set('n', '<leader>fw', builtin.grep_string, { desc = 'Telescope word grep' })
@@ -89,9 +90,6 @@ vim.keymap.set("n", "<C-9>", function() ui.nav_file(9) end)
 --Undotree
 vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle)
 
---Nvim-fugitive
-vim.keymap.set('n', '<leader>gs', vim.cmd.Gstatus)
-
 function Surround(w_or_W)
         local open_char = vim.fn.input("Surround with: ")
     local closed_char = nil
@@ -163,3 +161,56 @@ vim.keymap.set("v", "<C-a>", "ggVG", {desc = "Select all"})
 
 vim.api.nvim_set_hl(0, 'MatchParen', { fg = '#ff0000', bg = '#000000', bold = true, reverse = true})
 
+-- views can only be fully collapsed with the global statusline
+vim.opt.laststatus = 3
+
+-- Function to jump to the next occurrence of specified characters in the current line
+local function jump_to_prev_char()
+    local line = vim.api.nvim_get_current_line()
+    local col = vim.fn.col('.')
+    local chars = { '%(', '%{', '<', '%[', '"', "'", '%)' }
+    local prev_pos = nil
+
+    for _, char in ipairs(chars) do
+        local pos = line:sub(1, col - 1):reverse():find(char)
+        if pos and (not prev_pos or pos < prev_pos) then
+            prev_pos = pos
+        end
+    end
+
+    if prev_pos then
+        vim.fn.cursor(0, col - prev_pos)
+    end
+end
+
+local function jump_to_next_char()
+        local line = vim.api.nvim_get_current_line()
+        local col = vim.fn.col('.')
+        local chars = { '%(', '%{', '<', '%[', '"', "'", '%)' }
+        local next_pos = nil
+
+        for _, char in ipairs(chars) do
+            local pos = line:find(char, col + 1)
+            if pos and (not next_pos or pos < next_pos) then
+                    next_pos = pos
+            end
+        end
+
+        if next_pos then
+                vim.fn.cursor(0, next_pos)
+        end
+end
+
+
+vim.keymap.set('n', '<S-Tab>', jump_to_prev_char, { desc = 'Jump to previous occurrence of specified characters' })
+vim.keymap.set('n', '<Tab>', jump_to_next_char, { desc = 'Jump to next occurrence of specified characters' })
+
+vim.keymap.set('n', '<leader>w', ':w<CR>', { desc = 'Quick save' })
+
+-- Keybind to leave lazygit
+vim.keymap.set('n', '<leader>lq', ':q<CR>', { desc = 'Leave lazygit' })
+
+vim.keymap.set('n', '<leader>+', ':resize +5<CR>', { desc = 'Increase split height' })
+vim.keymap.set('n', '<leader>-', ':resize -5<CR>', { desc = 'Decrease split height' })
+vim.keymap.set('n', '<leader>>', ':vertical resize +5<CR>', { desc = 'Increase split width' })
+vim.keymap.set('n', '<leader><', ':vertical resize -5<CR>', { desc = 'Decrease split width' })

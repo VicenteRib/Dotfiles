@@ -208,3 +208,8 @@ exec xinput set-prop "Elan Touchpad" "libinput Tapping Enabled" 1
 
 bindsym F5 exec brightnessctl s 10%-
 bindsym F6 exec brightnessctl s +10%
+
+#interactive screenshot by pressing printscreen
+bindsym Print exec gnome-screenshot -i 
+#crop-area screenshot by pressing Mod + printscreen
+bindsym $mod+Print exec gnome-screenshot -a

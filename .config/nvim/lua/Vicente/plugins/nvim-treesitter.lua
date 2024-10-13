@@ -3,7 +3,7 @@ return{
     build = ':TSUpdate',  -- Automatically update Treesitter parsers
     config = function()
         require('nvim-treesitter.configs').setup {
-            ensure_installed = { "lua", "python", "javascript", "html", "css" },  -- List of languages
+            ensure_installed = { "lua", "python", "java", "c", "javascript", "html", "css" },  -- List of languages
             highlight = {
                 enable = true,  -- Enable Treesitter-based syntax highlighting
                 additional_vim_regex_highlighting = false,  -- Disable regex highlighting
