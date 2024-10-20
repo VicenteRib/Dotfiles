@@ -2,7 +2,7 @@ return {
     {
         'zbirenbaum/copilot.lua',
         cmd = 'Copilot',
-        event = 'InsertEnter',
+        event = 'VeryLazy',
         opts = {
             -- I don't find the panel useful.
             panel = { enabled = false },
@@ -21,6 +21,7 @@ return {
             },
             filetypes = { markdown = true },
         },
+        lazy = true,
         config = function(_, opts)
             local cmp = require 'cmp'
             local copilot = require 'copilot.suggestion'

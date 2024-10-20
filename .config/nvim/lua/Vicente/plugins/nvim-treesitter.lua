@@ -1,5 +1,5 @@
 return{
-    'nvim-treesitter/nvim-treesitter',
+    {'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',  -- Automatically update Treesitter parsers
     config = function()
         require('nvim-treesitter.configs').setup {
@@ -24,34 +24,35 @@ return{
                 select = {
                     enable = true,
                     lookahead = true,  -- Automatically jump forward to the next text object
-                    keymaps = {
-                        ["af"] = "@function.outer",  -- Select around a function
-                        ["if"] = "@function.inner",  -- Select inside a function
-                        ["ac"] = "@class.outer",     -- Select around a class
-                        ["ic"] = "@class.inner",     -- Select inside a class
+                    set_jumps = true,
+                        goto_previous_start = { ["[["] = "@function.outer" },
+                        goto_next_start = { ["]]"] = "@function.outer" },
+                        keymaps = {
+                            ["ac"] = "@class.outer",     -- Select around a class
+                            ["ic"] = "@class.inner",     -- Select inside a class
+                        },
+                    },
+                    move = {
+                        enable = true,
+                        set_jumps = true,  -- Whether to set jumps in the jumplist
+                        goto_next_start = {
+                            ["]f"] = "@function.outer",
+                            ["]c"] = "@class.outer",
+                        },
+                        goto_previous_start = {
+                            ["[f"] = "@function.outer",
+                            ["[c"] = "@class.outer",
+                        },
                     },
                 },
-                move = {
-                    enable = true,
-                    set_jumps = true,  -- Whether to set jumps in the jumplist
-                    goto_next_start = {
-                        ["]f"] = "@function.outer",
-                        ["]c"] = "@class.outer",
-                    },
-                    goto_previous_start = {
-                        ["[f"] = "@function.outer",
-                        ["[c"] = "@class.outer",
-                    },
+                -- Additional Treesitter modules
+                autotag = {
+                    enable = true,  -- Automatically close and rename HTML/JSX tags
                 },
-            },
-            -- Additional Treesitter modules
-            autotag = {
-                enable = true,  -- Automatically close and rename HTML/JSX tags
-            },
-            rainbow = {
-                enable = true,  -- Enable rainbow parentheses
-                extended_mode = true,  -- Highlight non-bracket delimiters
-            },
-        }
-    end
+                rainbow = {
+                    enable = true,  -- Enable rainbow parentheses
+                    extended_mode = true,  -- Highlight non-bracket delimiters
+                },
+            }
+        end},
 }

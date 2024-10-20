@@ -2,6 +2,7 @@ return {
     -- LSP Config
     {
         'neovim/nvim-lspconfig',
+        event = { "BufReadPre", "BufNewFile" },
         config = function()
             local lspconfig = require('lspconfig')
 
@@ -34,7 +35,7 @@ return {
                 },
             }
             lspconfig.ts_ls.setup({
-            on_attach = function(_, bufnr)
+                on_attach = function(_, bufnr)
                     -- Enable completion triggered by <c-x><c-o>
                     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
@@ -49,8 +50,9 @@ return {
 
         end,
     },
-{
+    {
         'hrsh7th/nvim-cmp',
+        event = "InsertEnter",
         dependencies = {
             'hrsh7th/cmp-nvim-lsp',
             'hrsh7th/cmp-buffer',
@@ -59,48 +61,45 @@ return {
             'L3MON4D3/LuaSnip',
             'saadparwaiz1/cmp_luasnip',
             'rafamadriz/friendly-snippets',
-            },
+        },
         config = function()
-                -- init.lua
-                require('luasnip.loaders.from_vscode').lazy_load()
-                local luasnip = require('luasnip')
-        local cmp = require('cmp')
-
-    cmp.setup({
-                    snippet = {
+            -- init.lua
+            require('luasnip.loaders.from_vscode').lazy_load()
+            local luasnip = require('luasnip')
+            local cmp = require('cmp')
+            cmp.setup({
+                snippet = {
                     expand = function(args)
-                                require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+                        require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
                     end,
                 },
-                    mapping = {
+                mapping = {
                     ['<C-k>'] = cmp.mapping.select_prev_item(), -- Previous suggestion
                     ['<C-j>'] = cmp.mapping.select_next_item(), -- Next suggestion
-                    ['Up'] = cmp.mapping.select_prev_item(), -- Previous suggestion
-                    ['Down'] = cmp.mapping.select_next_item(), -- Next suggestion
                     ['<C-d>'] = cmp.mapping.scroll_docs(-4), -- Scroll documentation
                     ['<C-f>'] = cmp.mapping.scroll_docs(4), -- Scroll documentation
                     ['<C-Space>'] = cmp.mapping.complete(), -- Trigger completion
                     ['<C-e>'] = cmp.mapping.abort(), -- Cancel completion
                     ['<CR>'] = cmp.mapping.confirm {
-                                                    behavior = cmp.ConfirmBehavior.Replace,
-                                                    select = true,
-                                                },
+                        behavior = cmp.ConfirmBehavior.Replace,
+                        select = true,
+                    },
                     ['<S-Tab>'] = cmp.mapping.select_prev_item(), -- SuperTab for previous completion
                     ['<Tab>'] = cmp.mapping(function(fallback)
-                                            local copilot = require 'copilot.suggestion'
+                        local copilot = require 'copilot.suggestion'
 
-                                    if copilot.is_visible() then
-                                            copilot.accept()
-                            elseif cmp.visible() then
-                                            cmp.select_next_item()
-                            elseif luasnip.expand_or_locally_jumpable() then
-                                            luasnip.expand_or_jump()
-                            else
-                                        fallback()
-                            end
-                end)
+                        if copilot.is_visible() then
+                            copilot.accept()
+                        elseif cmp.visible() then
+                            cmp.select_next_item()
+                        elseif luasnip.expand_or_locally_jumpable() then
+                            luasnip.expand_or_jump()
+                        else
+                            fallback()
+                        end
+                    end)
                 },
-                    sources = cmp.config.sources({
+                sources = cmp.config.sources({
                     { name = 'nvim_lsp' },
                     { name = 'buffer' },
                     { name = 'path' },
@@ -110,12 +109,12 @@ return {
                 }),
             })
 
-    -- Optional: Set up command-line completion
-        cmp.setup.cmdline(':', {
-            sources = {
+            -- Optional: Set up command-line completion
+            cmp.setup.cmdline(':', {
+                sources = {
                     { name = 'cmdline' }
                 }
             })
-    end,
-        }
+        end,
+    },
 }

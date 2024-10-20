@@ -51,6 +51,7 @@ white = '#d9dee3'
 opacity = 0.9
 
 [font]
+size = 8
     [font.normal]
         family = "DejavuSansM Nerd Font"
         style = "Regular"

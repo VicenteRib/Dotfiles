@@ -1,19 +1,11 @@
 return{
     "yetone/avante.nvim",
-    event = "VeryLazy",
-    lazy = false,
+    event = { "BufReadPost", "BufNewFile" },
+    lazy = true,
     version = false, -- set this if you want to always pull the latest change
-    config = function ()
-      require("avante").setup({
-        provider = "copilot",
-      })
-    end,
-    opts = {
-        -- add any opts here
-      },
-    -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
     build = "make",
     -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
+    after = { "nvim-treesitter/nvim-treesitter", "stevearc/dressing.nvim", "nvim-lua/plenary.nvim", "MunifTanjim/nui.nvim" },
     dependencies = {
         "nvim-treesitter/nvim-treesitter",
       "stevearc/dressing.nvim",
@@ -25,7 +17,7 @@ return{
       {
         -- support for image pasting
         "HakonHarnes/img-clip.nvim",
-        event = "VeryLazy",
+        event = { "BufReadPost", "BufNewFile" },
         opts = {
           -- recommended settings
           default = {

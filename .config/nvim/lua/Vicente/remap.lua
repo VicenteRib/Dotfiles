@@ -14,14 +14,16 @@ vim.o.et = true
 vim.o.smartindent = true
 
 vim.opt.list = true
-vim.opt.listchars = { space = '⋅', tab = '» ', trail = '·', }
-
+local space = "·"
+vim.opt.listchars:append {
+        tab = "│─",
+        trail = space,
+}
 vim.opt.inccommand = 'split'
 
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
 vim.o.breakindent = true
-
 vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
 vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
 vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
@@ -159,8 +161,6 @@ vim.keymap.set("n", "<C-a>", "ggVG", {desc = "Select all"})
 vim.keymap.set("i", "<C-a>", "ggVG", {desc = "Select all"})
 vim.keymap.set("v", "<C-a>", "ggVG", {desc = "Select all"})
 
-vim.api.nvim_set_hl(0, 'MatchParen', { fg = '#ff0000', bg = '#000000', bold = true, reverse = true})
-
 -- views can only be fully collapsed with the global statusline
 vim.opt.laststatus = 3
 
@@ -168,7 +168,7 @@ vim.opt.laststatus = 3
 local function jump_to_prev_char()
     local line = vim.api.nvim_get_current_line()
     local col = vim.fn.col('.')
-    local chars = { '%(', '%{', '<', '%[', '"', "'", '%)' }
+    local chars = { '%(', '%{', '<', '%['}
     local prev_pos = nil
 
     for _, char in ipairs(chars) do
@@ -186,7 +186,7 @@ end
 local function jump_to_next_char()
         local line = vim.api.nvim_get_current_line()
         local col = vim.fn.col('.')
-        local chars = { '%(', '%{', '<', '%[', '"', "'", '%)' }
+        local chars = { '%(', '%{', '<', '%['}
         local next_pos = nil
 
         for _, char in ipairs(chars) do
@@ -201,7 +201,6 @@ local function jump_to_next_char()
         end
 end
 
-
 vim.keymap.set('n', '<S-Tab>', jump_to_prev_char, { desc = 'Jump to previous occurrence of specified characters' })
 vim.keymap.set('n', '<Tab>', jump_to_next_char, { desc = 'Jump to next occurrence of specified characters' })
 
@@ -214,3 +213,6 @@ vim.keymap.set('n', '<leader>+', ':resize +5<CR>', { desc = 'Increase split heig
 vim.keymap.set('n', '<leader>-', ':resize -5<CR>', { desc = 'Decrease split height' })
 vim.keymap.set('n', '<leader>>', ':vertical resize +5<CR>', { desc = 'Increase split width' })
 vim.keymap.set('n', '<leader><', ':vertical resize -5<CR>', { desc = 'Decrease split width' })
+
+vim.api.nvim_set_keymap('n', '[[', ':<C-u>normal! [[<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', ']]', ':<C-u>normal! ]]<CR>', { noremap = true, silent = true })
