@@ -2,6 +2,7 @@ vim.keymap.set("n", "<leader>pp", vim.cmd.Ex)
 
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>gr', builtin.lsp_references, { desc = 'Telescope find references using lsp' })
+vim.keymap.set('n', '<leader>gi', builtin.lsp_implementations, { desc = "Go to Implementations" })
 vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
 vim.keymap.set('n', '<leader>fw', builtin.grep_string, { desc = 'Telescope word grep' })
@@ -157,8 +158,6 @@ vim.keymap.set("n", "<leader>s", ":%s/\\<<C-r><C-w>\\>//g<left><left>", {desc = 
 
 vim.o.sidescrolloff = 0
 
-vim.keymap.set("n", "<C-a>", "ggVG", {desc = "Select all"})
-vim.keymap.set("i", "<C-a>", "ggVG", {desc = "Select all"})
 vim.keymap.set("v", "<C-a>", "ggVG", {desc = "Select all"})
 
 -- views can only be fully collapsed with the global statusline
@@ -206,8 +205,7 @@ vim.keymap.set('n', '<Tab>', jump_to_next_char, { desc = 'Jump to next occurrenc
 
 vim.keymap.set('n', '<leader>w', ':w<CR>', { desc = 'Quick save' })
 
--- Keybind to leave lazygit
-vim.keymap.set('n', '<leader>lq', ':q<CR>', { desc = 'Leave lazygit' })
+vim.keymap.set('n', '<leader>lq', ':q<CR>', { desc = 'Leave' })
 
 vim.keymap.set('n', '<leader>+', ':resize +5<CR>', { desc = 'Increase split height' })
 vim.keymap.set('n', '<leader>-', ':resize -5<CR>', { desc = 'Decrease split height' })

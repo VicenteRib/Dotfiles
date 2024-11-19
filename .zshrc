@@ -1,5 +1,6 @@
 #auto-completion
 autoload -U compinit && compinit
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
 #history
 HISTFILE=~/.zsh_history
@@ -8,6 +9,7 @@ SAVEHIST=10000
 setopt appendhistory
 #aliases
 alias ls='ls --color=auto'
+alias v='nvim'
 
 #Prompt
 PS1='[%n@%m] [%F{cyan}%~%f] >> '
